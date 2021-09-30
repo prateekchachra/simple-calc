@@ -1,0 +1,17 @@
+@keyframes fadeInAndSlide {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100%{
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+
+.header-animated {
+    animation: 1s ease-out 0s 1 fadeInAndSlide;
+    text-shadow: 4px 2px 2px rgba(0, 0, 0, 0.2); 
+    margin-bottom: 48px;
+}
