@@ -41,5 +41,4 @@ GridButton.propTypes = {
 
 // Prevent rerenders
 
-export default React.memo(GridButton, (prevProps, nextProps) => 
-prevProps.digit.value === nextProps.digit.value);
+export default React.memo(GridButton);

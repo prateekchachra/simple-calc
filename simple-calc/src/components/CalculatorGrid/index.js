@@ -202,21 +202,17 @@ const CalculatorGrid = () => {
             // Handling backspace
             val.length < values.nextValue.length ?
             setValues({...values, nextValue: val}) :  handleInput({value: lastChar, type: keyDigitMapping[lastChar]})
-        }
-        
-
+        }        
     }, [values, handleInput, keyDigitMapping]);
     
     // Handle click events
     const onDigitClick = useCallback((digit) => handleInput(digit), [handleInput]);
 
-
-
     return  (
-        <div className="calculator-grid" onKeyPress={onKeyPress} onKeyDown={onDeleteKeyPress}>
+        <div className="calculator-grid" data-testid="calculator-container" onKeyPress={onKeyPress} onKeyDown={onDeleteKeyPress}>
             <div className="calculator-input-container">
                 <div className="calculated-value">{values.firstValue !== '' ? String(values.firstValue) + values.operator : ''}</div>
-                <input autoFocus type="" ref={valueInput} className="calculator-input" onChange={onInputChange} value={values.nextValue}/>   
+                <input autoFocus type="number" ref={valueInput} data-testid="calculator-input" className="calculator-input" onChange={onInputChange} value={values.nextValue}/>   
             </div>
             {CALCULATOR_ELEMENTS.map((item) => {
                 return (<GridButton 
