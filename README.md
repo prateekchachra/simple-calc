@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# La Calculadora : A Simple Calculator Built in React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is made as an interview assignment on React.
 
-## Available Scripts
+## About This Project
 
-In the project directory, you can run:
+La Calculadora can take an input in either of these 3 ways
+
+- Typing directly into the input box
+- Typing anything on the keyboard if the input is unfocused.
+- Clicking on the buttons.
+
+The calculator handles three kinds of values :
+**Digits**, **Operators** and **Special Operators**
+
+Digits are numbers from 0-9 and the Decimal .
+
+The calculator uses these operators:
+
+- Multiple
+- Division
+- Addition
+- Subtraction
+
+And some special operators:
+
+- Percentage
+- Inversion (+/-)
+- Clear (C)
+- Equals (Outputs the result)
+
+The inputs are properly sanitized (Only digits and operators allowed)
+
+Special key inputs are handled:
+
+- Delete (Same as clear, resets input)
+- Enter (Same as equals, outputs result)
+- Clear (C)
+
+The calculator can handle more than two operations by chaining the results, and the input is handled accordingly.
+
+## Technologies used:
+
+### UI
+
+For UI, React.JS and simple CSS is being used.
+
+### Testing
+
+For testing, Jest and React-Testing-Library (Now @testing-library/react) is being used for both Unit and Integration tests.
+
+### Error Handling
+
+For error handling, **react-error-boundary** is being used instead of implementing the ErrorBoundary that comes with React.JS by default
+because the library provides us additional features and handling.
+
+**Sentry** is being used to log the errors
+
+### Package Management
+
+**Yarn** is being used as the default package manager.
+
+## Scripts
 
 ### `yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
 ### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches tests for all the components.
 
 ### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
