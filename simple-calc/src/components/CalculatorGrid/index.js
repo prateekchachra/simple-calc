@@ -40,18 +40,47 @@ const CalculatorGrid = () => {
 
         // TODO : Error handling
         const {firstValue, operator, nextValue} = values;
+        let result = 0;
         switch(operator){
             case '+': 
-                return String((+firstValue + +nextValue).toFixed(2));
+                result = +firstValue + +nextValue;
+                break;
             case '-':
-                return String((+firstValue - +nextValue).toFixed(2));
+                result = +firstValue - +nextValue;
+                break;
             case '*':
-                return String((+firstValue * +nextValue).toFixed(2));
+                result = +firstValue * +nextValue;
+                break;
             case '/':
-                return String((+firstValue / +nextValue).toFixed(2));
+                result = +firstValue / +nextValue;
+                break;
             default:
-                return '';
+                return result;
         }
+
+
+        /**
+         * 
+         * Error Handling
+         * 
+         * Errors here can be because of one of three reasons:
+         * 
+         * 1. Number is infinity
+         * 2. Number is NaN
+         * 3. Number is greater than the allowed JS value
+         */
+        // Check for Infinity
+        if(result === Infinity){
+            throw new Error('Invalid division');
+        } 
+        else if(result >= Number.MAX_SAFE_INTEGER){
+            throw new Error('JS Safe Integer limit exceeded')
+        }
+        // Check for NaN
+        else if(isNaN(result)){
+            throw new Error('Not a numeric value. Error in input detected')
+        }
+        else return String(result.toFixed(2));
     }, [values]);
 
     // Callback for handling equal operator
