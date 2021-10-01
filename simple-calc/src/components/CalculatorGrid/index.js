@@ -7,7 +7,7 @@ import { checkIfValidDigit } from '../../utils/validation';
 import './style.css';
 /**
  * Calculator component with the Grid
- * @returns Calculator 
+ * @returns Calculator Grid component where the calculations are done and everything is rendered
  */
 
 const DEFAULT_VALUE = {
@@ -17,19 +17,35 @@ const DEFAULT_VALUE = {
 }
 const CalculatorGrid = () => {
 
+    // Using the calculator values
+
     const [values, setValues] = useState(DEFAULT_VALUE);
 
+    // Using the calculated map for Key - calculation mapping  
+    const keyDigitMapping = useMemo(() => {
+        const mappingObj = {};
+
+        CALCULATOR_ELEMENTS.forEach((item) => {
+            mappingObj[item.value] = item.type;
+        });
+        return mappingObj;
+    }, []);
+
+    // Callback for resetting the value
     const resetValue = useCallback(() => setValues(DEFAULT_VALUE), []);
     
+    // Callback for handling normal operators
     const calculateResult = useCallback(() => {
+
+        // TODO : Error handling
         const {firstValue, operator, nextValue} = values;
         switch(operator){
             case '+': 
-                return String(+firstValue + +nextValue);
+                return String((+firstValue + +nextValue).toFixed(2));
             case '-':
-                return String(+firstValue - +nextValue);
+                return String((+firstValue - +nextValue).toFixed(2));
             case '*':
-                return String(+firstValue * +nextValue);
+                return String((+firstValue * +nextValue).toFixed(2));
             case '/':
                 return String((+firstValue / +nextValue).toFixed(2));
             default:
@@ -37,15 +53,36 @@ const CalculatorGrid = () => {
         }
     }, [values]);
 
-    const onDigitClick = useCallback((digit) => {
+    // Callback for handling equal operator
+
+    const handleEqual = useCallback(() => {
+        if(values.firstValue === '' || values.nextValue === '') return;
+        const result = calculateResult();
+        
+        setValues({firstValue: '', operator: '=', nextValue: result})
+    }, [values, calculateResult])
+
+    /**
+     * Callback for handling the input.
+     * 
+     * Input can come from each of these three ways:
+     * 
+     * 1. Keyboard Input
+     * 2. Clicking the buttons
+     * 3. From the input box.
+     * 
+     * This is a common way of handling all three.
+     */
+    const handleInput = useCallback((digit) => {
         switch(digit.type){
             case 'DIGIT':
-                setValues({...values, nextValue: values.nextValue + digit.value});
+                if(!(digit.value === '.' && values.nextValue.indexOf('.') !== -1)){
+                    setValues({...values, nextValue: values.nextValue + digit.value});
+                }
                 break;
             case 'EQUAL_OPERATOR':
                 // Error handling
-                const result = calculateResult();
-                setValues({firstValue: '', operator: '=', nextValue: result})
+                handleEqual();
                 break;
             case 'SPECIAL_OPERATOR':
                 // TODO: better way
@@ -61,36 +98,76 @@ const CalculatorGrid = () => {
                 }
                 break;
             case 'OPERATOR':
-                //Handling special cases
-                setValues({
-                    firstValue: values.nextValue,
-                    operator: digit.value,
-                    nextValue: ''
-                })
+                if(values.operator && values.nextValue === ''){
+                    setValues({
+                        ...values,
+                        operator: digit.value
+                    })
+                }
+                else {
+                    let newValue = values.firstValue !== '' ? calculateResult() : values.nextValue;
+                    setValues({
+                        firstValue: newValue,
+                        operator: digit.value,
+                        nextValue: ''
+                    })
+                }
                 break;
             default: 
                 return '';
         }
-    }, [values, resetValue, calculateResult]);
+    }, [handleEqual, values, resetValue, calculateResult]);
 
+    // Key press event handler
     const onKeyPress = useCallback((event) => {
-
-    }, []);
-    
-    
-    const onInputChange = useCallback((e) => {
-        let val = e.target.value;
-        if(checkIfValidDigit(val) || val === ''){
-            setValues({...values, nextValue: val})
+        
+        // Check if it is a valid digit key
+        if(keyDigitMapping[event.key]){
+            
+            /**
+             * Sending the input to the handleInput callback.
+             * 
+             * If this was typescript, we'd be using a 'DigitType' instead to send the digit
+             * in a more proper manner
+             */
+            handleInput({value: event.key, type: keyDigitMapping[event.key]})
         }
 
-    }, [values]);
+        // Enter and delete key listeners
+        
+        else if(event.key === 'Enter') {
+            handleEqual();
+        }
+        else return;
+        
+        
+    }, [handleEqual, handleInput, keyDigitMapping]);
+    
+    // Input handle
+    const onInputChange = useCallback((e) => {
+        let val = e.target.value;
+        let lastChar = val.charAt(val.length - 1);
 
+        // Checking the last typed character
+
+        /**
+         * 
+         * Again, a better way to do it would have been DigitType.
+         * Due to time shortage, Typescript isn't being used.
+         */
+        if(checkIfValidDigit(lastChar) || lastChar === ''){
+            handleInput({value: lastChar, type: keyDigitMapping[lastChar]})
+        }
+
+    }, [handleInput, keyDigitMapping]);
+    
+    // Click handle
+    const onDigitClick = useCallback((digit) => handleInput(digit), [handleInput]);
 
     return  (
         <div className="calculator-grid" onKeyPress={onKeyPress}>
             <div className="calculator-input-container">
-                {values.firstValue !== '' ? <span className="calculated-value">{values.firstValue} {values.operator}</span> : null}
+                <div className="calculated-value">{values.firstValue !== '' ? String(values.firstValue) + values.operator : ''}</div>
                 <input type="" className="calculator-input" onChange={onInputChange} value={values.nextValue}/>   
             </div>
             {CALCULATOR_ELEMENTS.map((item) => {

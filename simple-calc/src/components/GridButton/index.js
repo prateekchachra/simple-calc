@@ -1,8 +1,17 @@
 import React, {useMemo} from 'react';
 
+import PropTypes from 'prop-types';
+
 import './style.css'
 
-const GridButton = ({ digit, onClickButton }) => {
+
+/**
+ * 
+ * @param {digit} Digit object for the Grid Button
+ * @param {onClickButton} Event listener once the GridButton is Clicked  
+ * @returns The Grid Button element that forms the calculator
+ */
+const GridButton = ({ digit = {}, onClickButton = () => {} }) => {
     const calculatedClass = useMemo(() => {
         switch(digit.type){
             case 'DIGIT':
@@ -23,4 +32,9 @@ const GridButton = ({ digit, onClickButton }) => {
     );
 }
 
+
+GridButton.propTypes = {
+    digit: PropTypes.object.isRequired,
+    onClickButton: PropTypes.func.isRequired
+};
 export default React.memo(GridButton);

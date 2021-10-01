@@ -1,16 +1,17 @@
 .calculator-grid{
     display: grid;
-    grid-template-columns: 60px 60px 60px 60px;
+    grid-template-columns: 80px 80px 80px 80px;
     width: max-content;
     box-shadow: rgba(100, 100, 100, 0.6) 3px 3px 3px 3px;
 }
 .calculator-input-container{
     grid-column-start: 1;
     grid-column-end: 5;
+    padding: 8px;
 }
 
 .calculator-input, .calculator-input:focus{
-    width: 200px;
+    width: 300px;
     height: 80px;
     border: none;
     outline: none;
@@ -21,4 +22,6 @@
 .calculated-value{
     font-size: 10px;
     font-family: 'Orbitron', sans-serif;
+    text-align: right;
+    height: 20px;
 }
