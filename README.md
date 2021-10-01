@@ -62,6 +62,8 @@ because the library provides us additional features and handling.
 
 ## Scripts
 
+**IMPORTANT: This project only uses Yarn and shall throw an error if you use to run npm commands.**
+
 ### `yarn start`
 
 Runs the app in the development mode.\
