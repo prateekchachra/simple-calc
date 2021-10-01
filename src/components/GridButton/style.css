@@ -1,49 +1,48 @@
-.grid-button{
-    height: 80px;
-    width: 80px;
-    font-size: 30px;
-    border: 1px solid rgba(100, 100, 100, 0.2);
-    box-sizing: border-box;
-    font-family: 'Orbitron', sans-serif;
-
+.grid-button {
+  height: 80px;
+  width: 80px;
+  font-size: 30px;
+  border: 1px solid rgba(100, 100, 100, 0.2);
+  box-sizing: border-box;
+  font-family: "Orbitron", sans-serif;
 }
 
 .button-digit {
-    background-color: whitesmoke;
+  background-color: whitesmoke;
 }
 
 .button-digit:hover {
-    background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 .button-digit:active {
-    box-shadow: inset 0 0 4px #070707;
+  box-shadow: inset 0 0 4px #070707;
 }
 
 .button-operator {
-    background-color: palegreen;
+  background-color: palegreen;
 }
 .button-operator:hover {
-    background-color: #88e188;
+  background-color: #88e188;
 }
 .button-operator:active {
-    box-shadow: inset 0 0 4px #3c643c;
+  box-shadow: inset 0 0 4px #3c643c;
 }
 
 .button-special {
-    background-color: antiquewhite;
+  background-color: antiquewhite;
 }
 .button-special:hover {
-    background-color: #e1d3c1;
+  background-color: #e1d3c1;
 }
 .button-special:active {
-    box-shadow: inset 0 0 4px #7d756b;
+  box-shadow: inset 0 0 4px #7d756b;
 }
 .button-equal {
-    background-color: yellow;
+  background-color: yellow;
 }
 .button-equal:hover {
-    background-color: #fedb00;
+  background-color: #fedb00;
 }
 .button-equal:active {
-    box-shadow: inset 0 0 4px #8B8000;
+  box-shadow: inset 0 0 4px #8b8000;
 }
