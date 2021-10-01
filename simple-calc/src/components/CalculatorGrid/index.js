@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useRef } from 'react';
 import GridButton from '../GridButton';
 import { CALCULATOR_ELEMENTS } from '../../constants/calculator';
 import { checkIfValidDigit } from '../../utils/validation';
@@ -20,6 +20,7 @@ const CalculatorGrid = () => {
     // Using the calculator values
 
     const [values, setValues] = useState(DEFAULT_VALUE);
+    const valueInput = useRef(null);
 
     // Using the calculated map for Key - calculation mapping  
     const keyDigitMapping = useMemo(() => {
@@ -56,7 +57,11 @@ const CalculatorGrid = () => {
     // Callback for handling equal operator
 
     const handleEqual = useCallback(() => {
+        // Handling empty values
         if(values.firstValue === '' || values.nextValue === '') return;
+        
+        // Handling the Standalone Decimal '.' error
+        if(values.nextValue === '.') return;
         const result = calculateResult();
         
         setValues({firstValue: '', operator: '=', nextValue: result})
@@ -85,7 +90,7 @@ const CalculatorGrid = () => {
                 handleEqual();
                 break;
             case 'SPECIAL_OPERATOR':
-                // TODO: better way
+                // Handles all the special characters
                 const {value} = digit;
                 if(value === 'C'){
                     resetValue();
@@ -104,6 +109,8 @@ const CalculatorGrid = () => {
                         operator: digit.value
                     })
                 }
+                // Handling the Decimal '.' string case
+                else if(values.nextValue === '.') return;
                 else {
                     let newValue = values.firstValue !== '' ? calculateResult() : values.nextValue;
                     setValues({
@@ -120,9 +127,10 @@ const CalculatorGrid = () => {
 
     // Key press event handler
     const onKeyPress = useCallback((event) => {
-        
-        // Check if it is a valid digit key
-        if(keyDigitMapping[event.key]){
+
+        // Check if it is a valid digit key and that the input isn't focused to avoid duplicate values
+
+        if(keyDigitMapping[event.key] && document.activeElement !== valueInput.current){
             
             /**
              * Sending the input to the handleInput callback.
@@ -133,9 +141,10 @@ const CalculatorGrid = () => {
             handleInput({value: event.key, type: keyDigitMapping[event.key]})
         }
 
-        // Enter and delete key listeners
-        
+        // Enter key listener
+        // We prevent the default behavior if the element is focused
         else if(event.key === 'Enter') {
+            event.preventDefault();
             handleEqual();
         }
         else return;
@@ -143,32 +152,42 @@ const CalculatorGrid = () => {
         
     }, [handleEqual, handleInput, keyDigitMapping]);
     
+    // We need to use the onKeyDown function for detecting the delete input
+    const onDeleteKeyPress = useCallback((event) => {
+        if(event.key === 'Delete') resetValue();
+    }, [resetValue])
+
     // Input handle
-    const onInputChange = useCallback((e) => {
-        let val = e.target.value;
-        let lastChar = val.charAt(val.length - 1);
+    const onInputChange = useCallback((event) => {
+        let val = event.target.value;
 
         // Checking the last typed character
-
+        let lastChar = val.charAt(val.length - 1);
         /**
          * 
          * Again, a better way to do it would have been DigitType.
          * Due to time shortage, Typescript isn't being used.
          */
         if(checkIfValidDigit(lastChar) || lastChar === ''){
-            handleInput({value: lastChar, type: keyDigitMapping[lastChar]})
+            
+            // Handling backspace
+            val.length < values.nextValue.length ?
+            setValues({...values, nextValue: val}) :  handleInput({value: lastChar, type: keyDigitMapping[lastChar]})
         }
+        
 
-    }, [handleInput, keyDigitMapping]);
+    }, [values, handleInput, keyDigitMapping]);
     
-    // Click handle
+    // Handle click events
     const onDigitClick = useCallback((digit) => handleInput(digit), [handleInput]);
 
+
+
     return  (
-        <div className="calculator-grid" onKeyPress={onKeyPress}>
+        <div className="calculator-grid" onKeyPress={onKeyPress} onKeyDown={onDeleteKeyPress}>
             <div className="calculator-input-container">
                 <div className="calculated-value">{values.firstValue !== '' ? String(values.firstValue) + values.operator : ''}</div>
-                <input type="" className="calculator-input" onChange={onInputChange} value={values.nextValue}/>   
+                <input autoFocus type="" ref={valueInput} className="calculator-input" onChange={onInputChange} value={values.nextValue}/>   
             </div>
             {CALCULATOR_ELEMENTS.map((item) => {
                 return (<GridButton 

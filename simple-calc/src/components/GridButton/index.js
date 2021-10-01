@@ -12,6 +12,7 @@ import './style.css'
  * @returns The Grid Button element that forms the calculator
  */
 const GridButton = ({ digit = {}, onClickButton = () => {} }) => {
+
     const calculatedClass = useMemo(() => {
         switch(digit.type){
             case 'DIGIT':
@@ -37,4 +38,8 @@ GridButton.propTypes = {
     digit: PropTypes.object.isRequired,
     onClickButton: PropTypes.func.isRequired
 };
-export default React.memo(GridButton);
+
+// Prevent rerenders
+
+export default React.memo(GridButton, (prevProps, nextProps) => 
+prevProps.digit.value === nextProps.digit.value);

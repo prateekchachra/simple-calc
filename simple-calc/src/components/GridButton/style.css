@@ -11,12 +11,39 @@
 .button-digit {
     background-color: whitesmoke;
 }
+
+.button-digit:hover {
+    background-color: #e0e0e0;
+}
+.button-digit:active {
+    box-shadow: inset 0 0 4px #070707;
+}
+
 .button-operator {
     background-color: palegreen;
 }
+.button-operator:hover {
+    background-color: #88e188;
+}
+.button-operator:active {
+    box-shadow: inset 0 0 4px #3c643c;
+}
+
 .button-special {
     background-color: antiquewhite;
 }
+.button-special:hover {
+    background-color: #e1d3c1;
+}
+.button-special:active {
+    box-shadow: inset 0 0 4px #7d756b;
+}
 .button-equal {
     background-color: yellow;
+}
+.button-equal:hover {
+    background-color: #fedb00;
+}
+.button-equal:active {
+    box-shadow: inset 0 0 4px #8B8000;
 }
