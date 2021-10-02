@@ -8,11 +8,6 @@ import CalculatorGrid from "./components/CalculatorGrid";
 import ErrorFallback from "./components/ErrorFallback";
 
 function App() {
-  const resetOnError = () =>
-    setTimeout(() => {
-      window.reload();
-    }, 1000);
-
   return (
     <div className="App">
       <Header title="La Calculadora" />
@@ -28,7 +23,6 @@ function App() {
             );
           });
         }}
-        onReset={resetOnError}
       >
         <CalculatorGrid />
       </ErrorBoundary>

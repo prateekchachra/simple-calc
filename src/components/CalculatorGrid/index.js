@@ -18,6 +18,8 @@ const CalculatorGrid = () => {
   // Using the calculator values
 
   const [values, setValues] = useState(DEFAULT_VALUE);
+  const [error, setError] = useState(null);
+
   const valueInput = useRef(null);
 
   // Using the calculated map for Key - calculation mapping
@@ -67,13 +69,13 @@ const CalculatorGrid = () => {
      */
     // Check for Infinity
     if (result === Infinity) {
-      throw new Error("Invalid division");
+      setError("Invalid division");
     } else if (result >= Number.MAX_SAFE_INTEGER) {
-      throw new Error("JS Safe Integer limit exceeded");
+      setError("JS Safe Integer limit exceeded");
     }
     // Check for NaN
     else if (isNaN(result)) {
-      throw new Error("Not a numeric value. Error in input detected");
+      setError("Not a numeric value. Error in input detected");
     } else return String(result.toFixed(2));
   }, [values]);
 
@@ -219,6 +221,8 @@ const CalculatorGrid = () => {
     (digit) => handleInput(digit),
     [handleInput]
   );
+
+  if (error) throw new Error(error);
 
   return (
     <div
