@@ -74,3 +74,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 Launches tests for all the components.
 
 ### `yarn build`
+
+**Currently deployed on [Vercel](https://vercel.com/) at [https://calculator-sigma-seven.vercel.app/](https://calculator-sigma-seven.vercel.app/)**
