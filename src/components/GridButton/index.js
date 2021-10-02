@@ -10,7 +10,7 @@ import "./style.css";
  * @param {onClickButton} Event listener once the GridButton is Clicked
  * @returns The Grid Button element that forms the calculator
  */
-const GridButton = ({ digit = {}, onClickButton = () => {} }) => {
+const GridButton = ({ digit = {} }) => {
   const calculatedClass = useMemo(() => {
     switch (digit.type) {
       case "DIGIT":
@@ -26,19 +26,11 @@ const GridButton = ({ digit = {}, onClickButton = () => {} }) => {
     }
   }, [digit]);
 
-  return (
-    <button
-      className={`grid-button ${calculatedClass}`}
-      onClick={() => onClickButton(digit)}
-    >
-      {digit.value}
-    </button>
-  );
+  return <div className={`grid-button ${calculatedClass}`}>{digit.value}</div>;
 };
 
 GridButton.propTypes = {
   digit: PropTypes.object.isRequired,
-  onClickButton: PropTypes.func.isRequired,
 };
 
 // Prevent rerenders

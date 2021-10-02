@@ -248,11 +248,9 @@ const CalculatorGrid = () => {
       </div>
       {CALCULATOR_ELEMENTS.map((item) => {
         return (
-          <GridButton
-            digit={item}
-            key={item.value}
-            onClickButton={onDigitClick}
-          />
+          <div key={item.value} onClick={() => onDigitClick(item)}>
+            <GridButton digit={item} />
+          </div>
         );
       })}
     </div>
